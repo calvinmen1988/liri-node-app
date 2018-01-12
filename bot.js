@@ -1,7 +1,5 @@
-//Grab data from keys.js
-var keys = require('./keys.js');
 var request = require('request');
-var spotify = require('spotify');
+var spotify = require('"node-spotify-api');
 var fs = require('fs');
 
 //users input via commandline.
@@ -48,8 +46,17 @@ switch(command){
   break;
 }
 
+//begin spotify functionality - please note - currently receiving unknown errors on my work station
+
+
 function spotifySong(song){
-  spotify.search({ type: 'track', query: song}, function(error, data){
+    
+    var spotifykey = new spotifykey ({
+        id: '4780f1cd09944a8bb10ee857400f414d',
+        secret: 'd841a2997342492e88bd4fa95912bf47',
+    })
+    
+    spotify.search({ type: 'track', query: song}, function(error, data){
     if(!error){
       for(var i = 0; i < data.tracks.items.length; i++){
         var songData = data.tracks.items[i];
@@ -73,8 +80,9 @@ function spotifySong(song){
       console.log('Error occurred.');
     }
   });
-}
+} // end spotify
 
+//begin oomdb functionality 
 function omdbData(movie){
   var omdbURL = 'http://www.omdbapi.com/?apikey=40e9cece&?t=' + movie + '&plot=short&tomatoes=true';
 
@@ -103,7 +111,7 @@ function omdbData(movie){
     }
   });
 
-}
+} // end oomdb
 
 function doThing(){
   fs.readFile('random.txt', "utf8", function(error, data){

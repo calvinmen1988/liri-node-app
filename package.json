@@ -4,6 +4,7 @@
   "description": "",
   "main": "bot.js",
   "dependencies": {
+    "node-spotify-api": "^1.0.7",
     "request": "^2.83.0",
     "spotify": "^0.3.0"
   },
