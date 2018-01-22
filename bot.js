@@ -1,12 +1,16 @@
-var request = require('request');
-var spotify = require('"node-spotify-api');
+//NPM
+
 var fs = require('fs');
+var request = require('request');
+var keys = require("./keys.js")
+var spotify = require('node-spotify-api');
+
 
 //users input via commandline.
 var nodeArgv = process.argv;
 var command = process.argv[2];
 
-// media user input (movie or son)g
+// media user input (movie or song)
 var media = "";
 
 //attaches multiple word arguments
@@ -23,9 +27,9 @@ switch(command){
 
   case "spotify-this-song":
     if(media){
-      spotifySong(media);
+      spotifyThisSong(media);
     } else{
-      spotifySong("Fluorescent Adolescent");
+      spotifyThisSong("Fluorescent Adolescent");
     }
   break;
 
@@ -49,16 +53,19 @@ switch(command){
 //begin spotify functionality - please note - currently receiving unknown errors on my work station
 
 
-function spotifySong(song){
-    
-    var spotifykey = new spotifykey ({
-        id: '4780f1cd09944a8bb10ee857400f414d',
-        secret: 'd841a2997342492e88bd4fa95912bf47',
-    })
+function spotifyThisSong(){
+
+  var spotify = new Spotify ({
+    id: keys.spotifyKeys.id,
+		secret: keys.spotifyKeys.secret
+  });
+  //method used for searching in spotify via CLI
     
     spotify.search({ type: 'track', query: song}, function(error, data){
+    
     if(!error){
       for(var i = 0; i < data.tracks.items.length; i++){
+        
         var songData = data.tracks.items[i];
 
         //artist
@@ -83,7 +90,7 @@ function spotifySong(song){
 } // end spotify
 
 //begin oomdb functionality 
-function omdbData(movie){
+function omdbData(){
   var omdbURL = 'http://www.omdbapi.com/?apikey=40e9cece&?t=' + movie + '&plot=short&tomatoes=true';
 
   request(omdbURL, function (error, response, body){
